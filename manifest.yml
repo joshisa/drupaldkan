@@ -8,5 +8,6 @@ applications:
   buildpack: https://github.com/chregu/cf-php-varnish-buildpack
   services:
   -  drupaldb
+  -  drupalredis
   env:
     VARNISH_MEMORY_LIMIT: 2G
