@@ -118,15 +118,13 @@ stages:
       wget https://api.github.com/repos/NuCivic/dkan/zipball/7.x-1.x -nv -O ./bluezone/dkanmod.zip
       unzip -o ./bluezone/dkanmod.zip -d ./htdocs/dkan-drops/sites/all/modules/contrib > /dev/null 2>&1
 
-      for (( i = 0 ; i < ${#desiredModule[@]} ; i++ )) 
-        do 
-          echo -e "${tools}${Cyan}      Installing Security Review Module ...${no_color}"
-          wget $rooturl/${desiredModule[$i]} -nv -O ./bluezone/${desiredModule[$i]}
-          unzip -o ./bluezone/${desiredModule[$i]} -d ./htdocs/dkan-drops/sites/all/modules/contrib > /dev/null 2>&1
-        done 
-        unset desiredModule 
-        unset rooturl
-      exit
+      for (( i = 0 ; i < ${#desiredModule[@]} ; i++ )); do 
+        echo -e "${tools}${Cyan}      Installing ${desiredModule[$i]} Module ...${no_color}"
+        wget $rooturl/${desiredModule[$i]} -nv -O ./bluezone/${desiredModule[$i]}
+        unzip -o ./bluezone/${desiredModule[$i]} -d ./htdocs/dkan-drops/sites/all/modules/contrib > /dev/null 2>&1
+      done 
+      unset desiredModule 
+      unset rooturl
       
       echo -e "${tools}${Red}      Patching Varnish Module to fix theme_hook_original on port bug ...${no_color}"
       echo -e "${tools}${Yellow}      Reference: https://www.drupal.org/node/2371907#comment-9468011 ${no_color}"
