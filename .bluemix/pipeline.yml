@@ -114,6 +114,10 @@ stages:
       wget http://ftp.drupal.org/files/projects/corporateclean-7.x-2.3.zip -nv -O ./bluezone/corpclean.zip
       unzip -o ./bluezone/corpclean.zip -d ./htdocs/dkan-drops/sites/all/themes > /dev/null 2>&1
       
+      echo -e "${tools}${Cyan}      Installing Latest DKAN Module ...${no_color}"
+      wget https://api.github.com/repos/NuCivic/dkan/zipball/7.x-1.x -nv -O ./bluezone/dkanmod.zip
+      unzip -o ./bluezone/dkanmod.zip -d ./htdocs/dkan-drops/sites/all/modules/contrib > /dev/null 2>&1
+
       for (( i = 0 ; i < ${#desiredModule[@]} ; i++ )) 
         do 
           echo -e "${tools}${Cyan}      Installing Security Review Module ...${no_color}"
