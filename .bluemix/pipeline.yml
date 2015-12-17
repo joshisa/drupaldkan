@@ -55,95 +55,89 @@ stages:
       
       echo -e "${harpoons}${Yellow}    Cloning latest Drupal DKAN ...${no_color}"
       mkdir htdocs
-      git clone https://github.com/NuCivic/dkan-drops-7.git ./htdocs/dkan-drops-7-7.x-1.0 > /dev/null 2>&1
+      git clone https://github.com/NuCivic/dkan-drops-7.git ./htdocs/dkan-drops > /dev/null 2>&1
       
       echo -e "${tools}${Cyan}    Setting up default site folders ...${no_color}"
-      mv ./bluezone/configtweaks/files ./htdocs/dkan-drops-7-7.x-1.0/sites/default
+      mv ./bluezone/configtweaks/files ./htdocs/dkan-drops/sites/default
       
       echo -e "${tools}${Yellow}    Setting up best practice modules, libraries, themes  ...${no_color}"
+      # In many cases, these are updated modules highlighted after the default DKAN install
+      # Some of the latter modules starting from security review help to create a snappy responsive deploy
+      # Pre-emptive measure to simply download and install them during setup
+      rooturl=http://ftp.drupal.org/files/projects/
+      desiredModule[0]=adminrole-7.x-1.1.zip
+      desiredModule[1]=beautytips-7.x-2.0-beta2.zip
+      desiredModule[2]=bueditor-7.x-1.8.zip
+      desiredModule[3]=colorizer-7.x-1.8.zip
+      desiredModule[4]=date-7.x-2.9.zip
+      desiredModule[5]=defaultconfig-7.x-1.0-alpha11.zip
+      desiredModule[6]=dkan_dataset-7.x-1.8.zip
+      desiredModule[7]=double_field-7.x-2.4.zip
+      desiredModule[8]=eck-7.x-2.0-rc8.zip
+      desiredModule[9]=facetapi-7.x-1.5.zip
+      desiredModule[10]=facetapi_pretty_paths-7.x-1.4.zip
+      desiredModule[11]=features-7.x-2.7.zip
+      desiredModule[12]=feeds-7.x-2.0-beta1.zip
+      desiredModule[13]=feeds_field_fetcher-7.x-1.x-dev.zip
+      desiredModule[14]=field_group-7.x-1.4.zip
+      desiredModule[15]=filefield_sources-7.x-1.10.zip
+      desiredModule[16]=libraries-7.x-2.2.zip
+      desiredModule[17]=link-7.x-1.3.zip
+      desiredModule[18]=multistep-7.x-1.x-dev.zip
+      desiredModule[19]=og_moderation-7.x-2.3.zip
+      desiredModule[20]=pathauto-7.x-1.3.zip
+      desiredModule[21]=rdfx-7.x-2.0-alpha4.zip
+      desiredModule[22]=remote_stream_wrapper-7.x-1.0-rc1.zip
+      desiredModule[23]=restws-7.x-2.4.zip
+      desiredModule[24]=rules-7.x-2.9.zip
+      desiredModule[25]=search_api-7.x-1.16.zip
+      desiredModule[26]=select_or_other-7.x-2.22.zip
+      desiredModule[27]=token-7.x-1.6.zip
+      desiredModule[28]=uuid-7.x-1.0-beta1.zip
+      desiredModule[29]=radix-7.x-3.1.zip
+      desiredModule[30]=security_review-7.x-1.2.zip
+      desiredModule[31]=missing_module-7.x-1.0.zip
+      desiredModule[32]=advagg-7.x-2.17.zip
+      desiredModule[33]=httprl-7.x-1.14.zip
+      desiredModule[34]=expire-7.x-2.0-rc4.zip
+      desiredModule[35]=entitycache-7.x-1.5.zip
+      desiredModule[36]=ctools-7.x-1.9.zip
+      desiredModule[37]=advanced_help-7.x-1.3.zip
+      desiredModule[38]=redis-7.x-3.11.zip
+      desiredModule[39]=varnish-7.x-1.0-beta3.zip
+      
       echo -e "${tools}${Cyan}      Installing Predis Redis Client Library ...${no_color}"
       wget https://github.com/nrk/predis/archive/v1.0.3.zip -nv -O ./bluezone/predis.zip
-      unzip -o ./bluezone/predis.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/libraries > /dev/null 2>&1
+      unzip -o ./bluezone/predis.zip -d ./htdocs/dkan-drops/sites/all/libraries > /dev/null 2>&1
       
       echo -e "${tools}${Cyan}      Installing CorporateClean Theme ...${no_color}"
       wget http://ftp.drupal.org/files/projects/corporateclean-7.x-2.3.zip -nv -O ./bluezone/corpclean.zip
-      unzip -o ./bluezone/corpclean.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/themes > /dev/null 2>&1
+      unzip -o ./bluezone/corpclean.zip -d ./htdocs/dkan-drops/sites/all/themes > /dev/null 2>&1
       
-      echo -e "${tools}${Cyan}      Installing Security Review Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/security_review-7.x-1.2.zip -nv -O ./bluezone/securityreview.zip
-      unzip -o ./bluezone/securityreview.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing 403 Redirect Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/r4032login-7.x-1.8.zip -nv -O ./bluezone/r4032login.zip
-      unzip -o ./bluezone/r4032login.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      
-      echo -e "${tools}${Cyan}      Installing Missing Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/missing_module-7.x-1.0.zip -nv -O ./bluezone/missing.zip
-      unzip -o ./bluezone/missing.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing Advanced CSS/JS Aggregation Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/advagg-7.x-2.17.zip -nv -O ./bluezone/advagg.zip
-      unzip -o ./bluezone/advagg.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing HTTP Parallel Request & Threading Library Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/httprl-7.x-1.14.zip -nv -O ./bluezone/httprl.zip
-      unzip -o ./bluezone/httprl.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing Cache Expiration Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/expire-7.x-2.0-rc4.zip -nv -O ./bluezone/expire.zip
-      unzip -o ./bluezone/expire.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing Entity Cache Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/entitycache-7.x-1.5.zip -nv -O ./bluezone/entitycache.zip
-      unzip -o ./bluezone/entitycache.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing Shadow SQL Optimization Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/shadow-7.x-1.0-beta3.zip -nv -O ./bluezone/shadow.zip
-      unzip -o ./bluezone/shadow.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing Views Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/views-7.x-3.13.zip -nv -O ./bluezone/views.zip
-      unzip -o ./bluezone/views.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing Advanced Help Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/advanced_help-7.x-1.3.zip -nv -O ./bluezone/adhelp.zip
-      unzip -o ./bluezone/adhelp.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing Chaos Tool Suite Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/ctools-7.x-1.9.zip -nv -O ./bluezone/ctools.zip
-      unzip -o ./bluezone/ctools.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-            
-      echo -e "${tools}${Cyan}      Installing Performance and Scalability Checklist Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/pasc-7.x-1.0-beta1.zip -nv -O ./bluezone/pasc.zip
-      unzip -o ./bluezone/pasc.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing ChecklistAPI Dependency Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/checklistapi-7.x-1.2.zip -nv -O ./bluezone/checklistapi.zip
-      unzip -o ./bluezone/checklistapi.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing Redis Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/redis-7.x-3.11.zip -nv -O ./bluezone/redis.zip
-      unzip -o ./bluezone/redis.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
-      
-      echo -e "${tools}${Cyan}      Installing Varnish Module ...${no_color}"
-      wget http://ftp.drupal.org/files/projects/varnish-7.x-1.0-beta3.zip -nv -O ./bluezone/varnish.zip
-      unzip -o ./bluezone/varnish.zip -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib > /dev/null 2>&1
+      for (( i = 0 ; i < ${#desiredModule[@]} ; i++ )) 
+        do 
+          echo -e "${tools}${Cyan}      Installing Security Review Module ...${no_color}"
+          wget $rooturl/${desiredModule[$i]} -nv -O ./bluezone/${desiredModule[$i]}
+          unzip -o ./bluezone/${desiredModule[$i]} -d ./htdocs/dkan-drops/sites/all/modules/contrib > /dev/null 2>&1
+        done 
+        unset desiredModule 
+        unset rooturl
+      exit
       
       echo -e "${tools}${Red}      Patching Varnish Module to fix theme_hook_original on port bug ...${no_color}"
       echo -e "${tools}${Yellow}      Reference: https://www.drupal.org/node/2371907#comment-9468011 ${no_color}"
       wget https://www.drupal.org/files/issues/varnish-2371907-24.patch -nv -O ./varnish-2371907-24.patch
-      patch -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib/varnish < ./varnish-2371907-24.patch
+      patch -d ./htdocs/dkan-drops/sites/all/modules/contrib/varnish < ./varnish-2371907-24.patch
       rm varnish-2371907-24.patch
       
-      echo -e "${tools}${Cyan}    Setting up user provided modules ...${no_color}"
+      echo -e "${tools}${Cyan}    Setting up user provided modules, themes and libraries ...${no_color}"
       for f in ./bluezone/configtweaks/libraries/*; do
           if [ -d ${f} ]; then
               # Will not run if no directories are available
-              echo -e "${harpoons}${Cyan}      Installing ${f} User-Provided Module ...${no_color}"
-              mv $f ./htdocs/dkan-drops-7-7.x-1.0/sites/all/libraries
+              echo -e "${harpoons}${Cyan}      Installing ${f} User-Provided Libraries ...${no_color}"
+              mv $f ./htdocs/dkan-drops/sites/all/libraries
           else
-              echo -e "${fail}${Cyan}      No User-Provided Modules detected...${no_color}"
+              echo -e "${fail}${Cyan}      No User-Provided Libraries detected...${no_color}"
           fi
       done
       
@@ -151,7 +145,7 @@ stages:
           if [ -d ${f} ]; then
               # Will not run if no directories are available
               echo -e "${harpoons}${Cyan}      Installing ${f} User-Provided Contrib Modules ...${no_color}"
-              mv $f ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib
+              mv $f ./htdocs/dkan-drops/sites/all/modules/contrib
           else
               echo -e "${fail}${Cyan}      No User-Provided Contrib Modules detected...${no_color}"
           fi
@@ -161,7 +155,7 @@ stages:
           if [ -d ${f} ]; then
               # Will not run if no directories are available
               echo -e "${harpoons}${Cyan}      Installing ${f} User-Provided Custom Modules ...${no_color}"
-              mv $f ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/custom
+              mv $f ./htdocs/dkan-drops/sites/all/modules/custom
           else
               echo -e "${fail}${Cyan}      No User-Provided Custom Modules detected...${no_color}"
           fi
@@ -171,7 +165,7 @@ stages:
           if [ -d ${f} ]; then
               # Will not run if no directories are available
               echo -e "${harpoons}${Cyan}      Installing ${f} User-Provided Themes ...${no_color}"
-              mv $f ./htdocs/dkan-drops-7-7.x-1.0/sites/all/themes
+              mv $f ./htdocs/dkan-drops/sites/all/themes
           else
               echo -e "${fail}${Cyan}      No User-Provided Themes detected...${no_color}"
           fi
@@ -188,151 +182,151 @@ stages:
       
       # Organize the artifact structure to facilitate BMX deploy
       echo -e "${cloud}${Yellow}    Making drupal artifacts ${Cyan}Bluemix ${Yellow}friendly ...${no_color}"
-      mv ./bluezone/configtweaks/.user.ini ./htdocs/dkan-drops-7-7.x-1.0
+      mv ./bluezone/configtweaks/.user.ini ./htdocs/dkan-drops
       
       echo -e "${cloud}${Yellow}    Hardening drupal .htaccess ...${no_color}"
-      echo -e "" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "# Forces a redirect to SSL" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "RewriteCond %{HTTPS} off" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "RewriteCond %{HTTP:X-Forwarded-Proto} !https" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "# Forces a redirect to SSL" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "RewriteCond %{HTTPS} off" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "RewriteCond %{HTTP:X-Forwarded-Proto} !https" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "# Enforces an Expires header for responses to content" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<ifmodule mod_expires.c>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "ExpiresActive On" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "ExpiresDefault A0" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "# Enforces an Expires header for responses to content" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<ifmodule mod_expires.c>" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "ExpiresActive On" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "ExpiresDefault A0" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up caching on media files for 1 year (forever?)" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    ExpiresDefault A29030400" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up caching on media files for 1 year (forever?)" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    ExpiresDefault A29030400" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up caching on media files for 4 week" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(gif|jpg|jpeg|png|swf)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    ExpiresDefault A2419200" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up caching on media files for 4 week" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(gif|jpg|jpeg|png|swf)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    ExpiresDefault A2419200" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up 2 week caching on commonly updated files" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(xml|txt|html|js|css)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    ExpiresDefault A1209600" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up 2 week caching on commonly updated files" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(xml|txt|html|js|css)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    ExpiresDefault A1209600" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Force no caching for dynamic files" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(php|cgi|pl|htm)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    ExpiresActive Off" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</ifmodule>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Force no caching for dynamic files" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(php|cgi|pl|htm)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    ExpiresActive Off" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</ifmodule>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Sets up cache-control headers for responses to content" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<ifmodule mod_headers.c>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Sets up cache-control headers for responses to content" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<ifmodule mod_headers.c>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up caching on media files for 1 year (forever?)" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    Header append Cache-Control \"public\"" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up caching on media files for 1 year (forever?)" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    Header append Cache-Control \"public\"" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up caching on media files for 4 week" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(gif|jpg|jpeg|png|swf)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    Header append Cache-Control \"public\"" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up caching on media files for 4 week" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(gif|jpg|jpeg|png|swf)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    Header append Cache-Control \"public\"" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Set up 2 week caching on commonly updated files" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(xml|txt|html|js|css)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    Header append Cache-Control \"proxy-revalidate\"" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Set up 2 week caching on commonly updated files" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(xml|txt|html|js|css)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    Header append Cache-Control \"proxy-revalidate\"" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Force no caching for dynamic files" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<FilesMatch \"\.(php|cgi|pl|htm)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    Header set Cache-Control \"private, no-cache, no-store, proxy-revalidate, no-transform\"" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    Header set Pragma \"no-cache\"" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</ifmodule>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Force no caching for dynamic files" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<FilesMatch \"\.(php|cgi|pl|htm)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    Header set Cache-Control \"private, no-cache, no-store, proxy-revalidate, no-transform\"" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    Header set Pragma \"no-cache\"" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</Filesmatch>" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</ifmodule>" >> ./htdocs/dkan-drops/.htaccess
       
-      echo -e "# Lets setup some compression for more speed" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "<ifModule mod_deflate.c>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "  <FilesMatch \"\.(js|css)$\">" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "    SetOutputFilter DEFLATE" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "  </FilesMatch>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
-      echo -e "</ifModule>" >> ./htdocs/dkan-drops-7-7.x-1.0/.htaccess
+      echo -e "# Lets setup some compression for more speed" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "<ifModule mod_deflate.c>" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "  <FilesMatch \"\.(js|css)$\">" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "    SetOutputFilter DEFLATE" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "  </FilesMatch>" >> ./htdocs/dkan-drops/.htaccess
+      echo -e "</ifModule>" >> ./htdocs/dkan-drops/.htaccess
 
-      # mv ./bluezone/configtweaks/.htaccess ./htdocs/dkan-drops-7-7.x-1.0
+      # mv ./bluezone/configtweaks/.htaccess ./htdocs/dkan-drops
       #
       # Embed config file if provided
       if [ -f "./bluezone/configtweaks/settings.php" ]; then
          echo -e "${tools}${Cyan}    Drupal Config file detected ...${no_color}"
-         mv ./bluezone/configtweaks/settings.php ./htdocs/dkan-drops-7-7.x-1.0/sites/default
+         mv ./bluezone/configtweaks/settings.php ./htdocs/dkan-drops/sites/default
       else
          echo -e "${tools}${Cyan}    NO Drupal Config file detected, using default ...${no_color}"
-         cp ./htdocs/dkan-drops-7-7.x-1.0/sites/default/default.settings.php ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$application = getenv(\"VCAP_APPLICATION\");" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$application_json = json_decode(\$application,true);" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "if (isset(\$application_json[\"application_uris\"])) {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "  \$base_url = \"https://\" . \$application_json[\"application_uris\"][0];" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "}" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$services = getenv(\"VCAP_SERVICES\");" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$services_json = json_decode(\$services,true);" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "if (isset(\$services_json)) {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "  if (isset(\$services_json[\"user-provided\"])) {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "     foreach(\$services_json[\"user-provided\"] as \$item) {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "       if (\$item[\"name\"] == \"drupaldb\") {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "         \$postgres_config = \$item[\"credentials\"];" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "         list(\$hostname, \$port) = explode(':', \$postgres_config[\"public_hostname\"]);" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "         \$dbname = 'compose';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "       } elseif (\$item[\"name\"] == \"drupalredis\") {" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "         \$redis_config = \$item[\"credentials\"];" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "         list(\$rhostname, \$rport) = explode(':', \$redis_config[\"public_hostname\"]);" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "       }" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "     }" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "   }" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "}" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$databases = array (" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "  'default' =>" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "  array (" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "    'default' =>" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "    array (" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'driver' => 'pgsql'," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'database' => \$dbname," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'username' => \$postgres_config[\"username\"]," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'password' => \$postgres_config[\"password\"]," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'host' => \$hostname," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'port' => \$port," >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "      'prefix' => 'main_'" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "    )" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "  )" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e ");" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
+         cp ./htdocs/dkan-drops/sites/default/default.settings.php ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$application = getenv(\"VCAP_APPLICATION\");" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$application_json = json_decode(\$application,true);" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "if (isset(\$application_json[\"application_uris\"])) {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "  \$base_url = \"https://\" . \$application_json[\"application_uris\"][0];" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "}" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$services = getenv(\"VCAP_SERVICES\");" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$services_json = json_decode(\$services,true);" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "if (isset(\$services_json)) {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "  if (isset(\$services_json[\"user-provided\"])) {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "     foreach(\$services_json[\"user-provided\"] as \$item) {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "       if (\$item[\"name\"] == \"drupaldb\") {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "         \$postgres_config = \$item[\"credentials\"];" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "         list(\$hostname, \$port) = explode(':', \$postgres_config[\"public_hostname\"]);" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "         \$dbname = 'compose';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "       } elseif (\$item[\"name\"] == \"drupalredis\") {" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "         \$redis_config = \$item[\"credentials\"];" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "         list(\$rhostname, \$rport) = explode(':', \$redis_config[\"public_hostname\"]);" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "       }" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "     }" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "   }" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "}" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$databases = array (" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "  'default' =>" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "  array (" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "    'default' =>" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "    array (" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'driver' => 'pgsql'," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'database' => \$dbname," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'username' => \$postgres_config[\"username\"]," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'password' => \$postgres_config[\"password\"]," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'host' => \$hostname," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'port' => \$port," >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "      'prefix' => 'main_'" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "    )" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "  )" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e ");" >> ./htdocs/dkan-drops/sites/default/settings.php
       
          # Useful only if Redis Caching is desired
          # Reference: http://dropbucket.org/node/242
          # Reference: https://redislabs.com/drupal-redis
-         echo -e "/*" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "// Setup Redis Cache for Drupal if service is available" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "define('PREDIS_BASE_PATH', DRUPAL_ROOT . '/sites/all/libraries/predis-1.0.3/');" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['redis_client_interface'] = 'Predis';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['redis_client_host'] = \$rhostname;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['redis_client_port'] = \$rport;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['redis_client_password'] = \$redis_config[\"password\"];" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_backends'][] = 'sites/all/modules/contrib/redis/redis.autoload.inc';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_default_class'] = 'Redis_Cache';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php 
-         echo -e "*/" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
+         echo -e "/*" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "// Setup Redis Cache for Drupal if service is available" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "define('PREDIS_BASE_PATH', DRUPAL_ROOT . '/sites/all/libraries/predis-1.0.3/');" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['redis_client_interface'] = 'Predis';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['redis_client_host'] = \$rhostname;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['redis_client_port'] = \$rport;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['redis_client_password'] = \$redis_config[\"password\"];" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['lock_inc'] = 'sites/all/modules/contrib/redis/redis.lock.inc';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_backends'][] = 'sites/all/modules/contrib/redis/redis.autoload.inc';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_default_class'] = 'Redis_Cache';" >> ./htdocs/dkan-drops/sites/default/settings.php 
+         echo -e "*/" >> ./htdocs/dkan-drops/sites/default/settings.php
       
-         echo -e "" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "//Tell Drupal it is behind a proxy" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['reverse_proxy'] = TRUE;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_backends'][] = 'sites/all/modules/contrib/varnish/varnish.cache.inc';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "// Tell Drupal what addresses the proxy server(s) use." >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['reverse_proxy_addresses'] = array('127.0.0.1');" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['page_cache_invoke_hooks'] = FALSE;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache'] = 1;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_lifetime'] = 0;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['page_cache_maximum_age'] = 600;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['cache_class_cache_page'] = 'DrupalDatabaseCache';" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php 
-         echo -e "\$conf['omit_vary_cookie'] = true;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "drupal_fast_404();" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['drupal_http_request_fails'] = FALSE;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
-         echo -e "\$conf['allow_authorize_operations'] = FALSE;" >> ./htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php
+         echo -e "" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "//Tell Drupal it is behind a proxy" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['reverse_proxy'] = TRUE;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_backends'][] = 'sites/all/modules/contrib/varnish/varnish.cache.inc';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "// Tell Drupal what addresses the proxy server(s) use." >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['reverse_proxy_addresses'] = array('127.0.0.1');" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['page_cache_invoke_hooks'] = FALSE;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache'] = 1;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_lifetime'] = 0;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['page_cache_maximum_age'] = 600;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['cache_class_cache_page'] = 'DrupalDatabaseCache';" >> ./htdocs/dkan-drops/sites/default/settings.php 
+         echo -e "\$conf['omit_vary_cookie'] = true;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "drupal_fast_404();" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['drupal_http_request_fails'] = FALSE;" >> ./htdocs/dkan-drops/sites/default/settings.php
+         echo -e "\$conf['allow_authorize_operations'] = FALSE;" >> ./htdocs/dkan-drops/sites/default/settings.php
       fi
       
       # Cleaning up
@@ -345,7 +339,7 @@ stages:
       echo -e "${tools}${Yellow}    Generating config helper download script...${no_color}"
       echo -e "#!/bin/bash" > fetchConfig.sh
       echo -e "rm ./bluezone/configtweaks/settings.php" >> fetchConfig.sh
-      echo -e "cf files${PROJECT_NAME[1]} /app/htdocs/dkan-drops-7-7.x-1.0/sites/default/settings.php > ./bluezone/configtweaks/settings.php" >> fetchConfig.sh
+      echo -e "cf files${PROJECT_NAME[1]} /app/htdocs/dkan-drops/sites/default/settings.php > ./bluezone/configtweaks/settings.php" >> fetchConfig.sh
       echo -e "sed -i -e '1,3d' ./bluezone/configtweaks/settings.php" >> fetchConfig.sh
       chmod +x fetchConfig.sh
       echo -e "${present} ${beers}${Green}  Way to go! Your Drupal Assembly present is ready!"
@@ -423,3 +417,4 @@ stages:
       done
       # view logs
       #cf logs "${CF_APP}" --recent
+
