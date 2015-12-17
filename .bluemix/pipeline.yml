@@ -138,6 +138,12 @@ stages:
       patch -d ./htdocs/dkan-drops-7-7.x-1.0/sites/all/modules/contrib/varnish < ./varnish-2371907-24.patch
       rm varnish-2371907-24.patch
       
+      echo -e "${tools}${Red}      Patching mbstring enabled check bug ...${no_color}"
+      echo -e "${tools}${Yellow}      Reference: https://www.drupal.org/node/2332295#comment-9224395 ${no_color}"
+      wget https://www.drupal.org/files/issues/drupal7-unicode_requirements-2332295-23.patch -nv -O ./mbstring_2332295-23.patch
+      patch -d ./htdocs/dkan-drops-7-7.x-1.0/includes < ./mbstring_2332295-23.patch
+      rm mbstring_2332295-23.patch
+      
       echo -e "${tools}${Cyan}    Setting up user provided modules ...${no_color}"
       for f in ./bluezone/configtweaks/libraries/*; do
           if [ -d ${f} ]; then
